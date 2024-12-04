@@ -1,0 +1,128 @@
+<div class="container mt-4">
+  <h2>Gerenciar Livros</h2>
+  <div *ngIf="mensagemErro" class="alert alert-danger">
+    {{ mensagemErro }}
+  </div>
+  <form (submit)="salvarLivro()" class="mb-4">
+    <div class="mb-3 row">
+      <label for="titulo" class="col-sm-3 col-form-label text-end">Título:</label>
+      <div class="col-sm-9">
+        <input
+          id="titulo"
+          type="text"
+          name="titulo"
+          [(ngModel)]="livroAtual.titulo"
+          class="form-control"
+          required
+        />
+      </div>
+    </div>
+    <div class="mb-3 row">
+      <label for="editora" class="col-sm-3 col-form-label text-end">Editora:</label>
+      <div class="col-sm-9">
+        <input
+          id="editora"
+          type="text"
+          name="editora"
+          [(ngModel)]="livroAtual.editora"
+          class="form-control"
+          required
+        />
+      </div>
+    </div>
+    <div class="mb-3 row">
+      <label for="edicao" class="col-sm-3 col-form-label text-end">Edição:</label>
+      <div class="col-sm-9">
+        <input
+          id="edicao"
+          type="number"
+          name="edicao"
+          [(ngModel)]="livroAtual.edicao"
+          class="form-control"
+          required
+        />
+      </div>
+    </div>
+    <div class="mb-3 row">
+      <label for="ano" class="col-sm-3 col-form-label text-end">Ano de Publicação:</label>
+      <div class="col-sm-9">
+        <input
+          id="ano"
+          type="text"
+          name="ano"
+          [(ngModel)]="livroAtual.anoPublicacao"
+          class="form-control"
+          required
+        />
+      </div>
+    </div>
+    <div class="mb-3 row">
+      <label for="autores" class="col-sm-3 col-form-label text-end">Autores:</label>
+      <div class="col-sm-9">
+        <div *ngFor="let autor of autores">
+          <input type="checkbox" [checked]="autoresSelecionados.includes(autor.id!)" (change)="onAutorChange($event, autor.id!)" id="autor-{{ autor.id }}"/>
+          <label for="autor-{{ autor.id }}">{{ autor.nome }}</label>
+        </div>
+      </div>
+    </div>
+    <div class="mb-3 row">
+      <label for="assuntos" class="col-sm-3 col-form-label text-end">Assuntos:</label>
+      <div class="col-sm-9">
+        <div *ngFor="let assunto of assuntos">
+          <input type="checkbox" [checked]="assuntosSelecionados.includes(assunto.id!)" (change)="onAssuntoChange($event, assunto.id!)" id="assunto-{{ assunto.id }}"/>
+          <label for="assunto-{{ assunto.id }}">{{ assunto.descricao }}</label>
+        </div>
+      </div>
+    </div>
+    <div class="mb-3 row">
+      <label for="valor" class="col-sm-3 col-form-label text-end">Valor (R$):</label>
+      <div class="col-sm-9">
+        <input
+          id="valor"
+          type="text"
+          name="valor"
+          [(ngModel)]="livroAtual.valor"
+          class="form-control"
+          mask="separator.2"
+          prefix="R$ "
+          thousandSeparator="."
+          decimalMarker=","
+        />
+      </div>
+    </div>
+
+    <div class="d-flex justify-content-end">
+      <button type="submit" class="btn btn-primary me-2">{{ editando ? 'Atualizar' : 'Adicionar' }}</button>&nbsp;&nbsp;
+      <button type="button" class="btn btn-secondary" (click)="limparFormulario()">Limpar</button>
+    </div>
+  </form>
+
+
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Título</th>
+        <th>Editora</th>
+        <th>Edição</th>
+        <th>Ano de Publicação</th>
+        <th>Valor</th>
+        <th>Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let livro of livros">
+        <td>{{ livro.id }}</td>
+        <td>{{ livro.titulo }}</td>
+        <td>{{ livro.editora }}</td>
+        <td>{{ livro.edicao }}</td>
+        <td>{{ livro.anoPublicacao }}</td>
+        <td>{{ livro.valor | currency: 'BRL' }}</td>
+        <td>
+          <button class="btn btn-warning btn-sm" (click)="editarLivro(livro)">Editar</button>
+          <button class="btn btn-danger btn-sm" (click)="excluirLivro(livro.id!)">Excluir</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

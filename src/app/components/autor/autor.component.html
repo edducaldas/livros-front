@@ -1,0 +1,45 @@
+<div class="container mt-4">
+  <h2>Gerenciar Autores</h2>
+  <div *ngIf="mensagemErro" class="alert alert-danger">
+    {{ mensagemErro }}
+  </div>
+  <form (submit)="salvarAutor()" class="mb-4">
+    <div class="mb-3 row">
+      <label for="titulo" class="col-sm-3 col-form-label text-end">Nome:</label>
+      <div class="col-sm-9">
+        <input
+          id="nome"
+          type="text"
+          name="nome"
+          [(ngModel)]="autorAtual.nome"
+          class="form-control"
+          required
+        />
+      </div>
+    </div>
+    <div class="d-flex justify-content-end">
+      <button type="submit" class="btn btn-primary me-2">{{ editando ? 'Atualizar' : 'Adicionar' }}</button>&nbsp;&nbsp;
+      <button type="button" class="btn btn-secondary" (click)="limparFormulario()">Limpar</button>
+    </div>
+  </form>
+
+
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Nome</th>
+       </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let autor of autores">
+        <td>{{ autor.id }}</td>
+        <td>{{ autor.nome }}</td>
+        <td>
+          <button class="btn btn-warning btn-sm" (click)="editarAutor(autor)">Editar</button>
+          <button class="btn btn-danger btn-sm" (click)="excluirAutor(autor.id!)">Excluir</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
